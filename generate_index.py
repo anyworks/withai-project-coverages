@@ -37,7 +37,7 @@ def get_project_metadata(project_path):
                 status = json.load(f)
                 if "timestamp" in status:
                     metadata["updated"] = status["timestamp"]
-        except:
+        except (IOError, json.JSONDecodeError, KeyError):
             pass
     
     # Fallback to directory modification time
@@ -45,7 +45,7 @@ def get_project_metadata(project_path):
         try:
             mtime = os.path.getmtime(project_path)
             metadata["updated"] = datetime.fromtimestamp(mtime, timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
-        except:
+        except OSError:
             metadata["updated"] = "Unknown"
     
     return metadata
