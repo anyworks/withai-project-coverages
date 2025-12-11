@@ -33,11 +33,11 @@ def get_project_metadata(project_path):
     status_file = project_path / "status.json"
     if status_file.exists():
         try:
-            with open(status_file, "r") as f:
+            with open(status_file, "r", encoding="utf-8") as f:
                 status = json.load(f)
                 if "timestamp" in status:
                     metadata["updated"] = status["timestamp"]
-        except (IOError, json.JSONDecodeError, KeyError):
+        except (IOError, json.JSONDecodeError):
             pass
     
     # Fallback to directory modification time
