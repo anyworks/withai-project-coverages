@@ -1,1 +1,153 @@
-<!DOCTYPE html><html><head><title>Coverage Reports</title><style>body{font-family:Arial,sans-serif;margin:40px}h1{color:#333}.repo-list{list-style:none;padding:0}.repo-list li{margin:10px 0}.repo-list a{text-decoration:none;color:#0366d6;font-size:18px}.repo-list a:hover{text-decoration:underline}</style></head><body><h1>Coverage Reports</h1><p>Select a repository to view its coverage reports:</p><ul class="repo-list" id="repoList"></ul><script>fetch(".").then(r=>r.text()).then(h=>{const p=new DOMParser();const d=p.parseFromString(h,"text/html");const l=Array.from(d.querySelectorAll("a")).filter(a=>!a.href.includes("index.html")&&a.href.endsWith("/")).map(a=>a.href.split("/").filter(p=>p).pop());const ul=document.getElementById("repoList");l.forEach(repo=>{if(repo){const li=document.createElement("li");const a=document.createElement("a");a.href=repo+"/";a.textContent=repo;li.appendChild(a);ul.appendChild(li)}})});</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Coverage Reports</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+        }
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        .status-message {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 30px;
+            color: #856404;
+        }
+        .status-message.info {
+            background: #d1ecf1;
+            border-color: #17a2b8;
+            color: #0c5460;
+        }
+        #project-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .project-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-color: #667eea;
+        }
+        .project-card a {
+            text-decoration: none;
+            color: #667eea;
+            font-size: 1.3em;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .project-card a:hover {
+            color: #764ba2;
+        }
+        .project-meta {
+            color: #666;
+            font-size: 0.9em;
+        }
+        .coverage-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        .coverage-high {
+            background: #28a745;
+            color: white;
+        }
+        .coverage-medium {
+            background: #ffc107;
+            color: #333;
+        }
+        .coverage-low {
+            background: #dc3545;
+            color: white;
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+        }
+        .timestamp {
+            color: #999;
+            font-size: 0.85em;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Project Coverage Reports</h1>
+        <p class="subtitle">Test coverage reports for all projects</p>
+        
+        <div class="status-message info" id="status-message">
+            ⏳ Coverage reports are being generated. Please check back in a few moments.
+        </div>
+        
+        <ul id="project-list">
+                        <li class="project-card">
+                <a href="withai-api-mcp-template/index.html">withai-api-mcp-template</a>
+                <div class="project-meta">View detailed coverage report</div>
+                <div class="timestamp">Updated: 2025-12-11 11:33:54 UTC</div>
+            </li>
+        </ul>
+        
+        <div class="footer">
+            <p>Generated by <a href="https://github.com/anyworks/withai-project-coverages" target="_blank">withai-project-coverages</a></p>
+            <p class="timestamp">Last updated: <span id="last-updated">2025-12-11 11:33:54 UTC</span></p>
+        </div>
+    </div>
+    
+    <script>
+        // Hide status message if projects exist
+        const projectList = document.getElementById('project-list');
+        const statusMessage = document.getElementById('status-message');
+        if (projectList.children.length > 0) {
+            statusMessage.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
