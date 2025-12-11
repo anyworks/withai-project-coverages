@@ -1,0 +1,44 @@
+name: Update Coverage Index
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'withai-*/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-index:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      
+      - name: Generate index.html
+        run: python3 generate_index.py
+      
+      - name: Check for changes
+        id: check_changes
+        run: |
+          git diff --exit-code index.html || echo "changed=true" >> $GITHUB_OUTPUT
+      
+      - name: Commit and push if changed
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add index.html
+          git commit -m "Auto-update coverage index"
+          git push
